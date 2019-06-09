@@ -3,6 +3,7 @@ import { SQLiteService } from './sqlite.service';
 import { User } from 'src/models/user';
 import { Question } from 'src/models/question';
 import { Solution } from 'src/models/solution';
+import { QuestionList } from 'src/models/question.list';
 
 @Injectable({
     providedIn: 'root'
@@ -59,7 +60,7 @@ export class DataControlService {
         });
     }
 
-    retrieveAllSurvey(): Promise<{ surveys: Question[], easySurveys: Question[], normalSurveys: Question[], hardSurveys: Question[] }> {
+    retrieveAllSurvey(): Promise<QuestionList> {
         let survey: Question[] = [];
         let hardSurvey: Question[] = [];
         let normalSurvey: Question[] = [];

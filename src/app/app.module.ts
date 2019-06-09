@@ -16,7 +16,6 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SQLiteService } from 'src/services/sqlite.service';
 import { DataControlService } from 'src/services/data-control.service';
 import { FormsModule } from '@angular/forms';
-import { EllipisPipe } from './ellipis.pipe';
 
 const declare = [
   AppComponent,
@@ -28,9 +27,9 @@ const declare = [
   declarations: declare,
   entryComponents: [],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     FormsModule,
-    IonicModule.forRoot(), 
+    IonicModule.forRoot(),
     AppRoutingModule
   ],
   providers: [
@@ -47,4 +46,4 @@ const declare = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
