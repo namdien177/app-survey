@@ -1,35 +1,40 @@
 <ng-container>
-  <ion-app>
-    <ion-header></ion-header>
-    <ion-content class="backgroundImg">
-      <!-- -->
-      <ion-grid>
-        <ion-row class="centering">
-          <ion-col size-md="6" offset-md="3">
-            <ion-card class="background">
-              <ion-card-content *ngFor="let question of listDisplay">
-                <ion-radio-group>
-                  <ion-list-header>
-                    Câu 1: {{question.question}}
-                  </ion-list-header>
-                  <ion-item *ngFor="let solution of question.solution">
-                    <ion-label>{{solution.answer}}</ion-label>
-                    <ion-radio value="{{solution.id}}"></ion-radio>
-                  </ion-item>
-                </ion-radio-group>
-              </ion-card-content>
-            </ion-card>
-            <div margin-vertical text-center>
-              <ion-button fill="fill" color="danger" class="text-input">
-                <ion-icon slot="start" name="redo"></ion-icon>Redo
-              </ion-button>
-              <ion-button fill="fill" color="sucess" class="text-input">
-                <ion-icon slot="end" name="checkmark"></ion-icon>Turn In
-              </ion-button>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-content>
-  </ion-app>
+    <ion-app>
+        <ion-header></ion-header>
+        <ion-content class="backgroundImg">
+            <!-- -->
+            <ion-grid>
+                <ion-row class="centering">
+                    <ion-col size-md="6" offset-md="3">
+                        <ion-card class="background">
+                            <ion-card-content *ngFor="let question of listDisplay; let i = index">
+                                <ion-radio-group [(ngModel)]="listRadioRecord[i].idSolution">
+                                    <ion-list-header>
+                                        Câu 1: {{question.question}}
+                                    </ion-list-header>
+                                    <ion-item *ngFor="let solution of question.solution">
+                                        <ion-label>{{solution.answer}}</ion-label>
+                                        <ion-radio value="{{solution.id}}"></ion-radio>
+                                    </ion-item>
+                                </ion-radio-group>
+                            </ion-card-content>
+                            <ion-card-subtitle *ngIf="!!errorMessage">
+                                {{errorMessage}}
+                            </ion-card-subtitle>
+                        </ion-card>
+                        <div margin-vertical text-center>
+                            <ion-button fill="fill" color="danger" class="text-input">
+                                <ion-icon slot="start" name="redo"></ion-icon>
+                                Redo
+                            </ion-button>
+                            <ion-button (click)="submitTest()" fill="fill" color="sucess" class="text-input">
+                                <ion-icon slot="end" name="checkmark"></ion-icon>
+                                Turn In
+                            </ion-button>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-content>
+    </ion-app>
 </ng-container>

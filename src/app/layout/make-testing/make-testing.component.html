@@ -50,6 +50,9 @@
                   </ion-radio-group>
                 </ion-list>
               </ion-item>
+              <p *ngIf="!!error">
+                {{error}}
+              </p>
               <div margin-vertical text-center>
                 <ion-button (click)="submitNewTest()" fill="fill" color="sucess" class="text-input">
                   <ion-icon slot="start" name="clipboard"></ion-icon>

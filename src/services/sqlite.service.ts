@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { SQLite } from '@ionic-native/sqlite/ngx';
-import { Platform } from '@ionic/angular';
+import {Injectable} from '@angular/core';
+import {SQLite} from '@ionic-native/sqlite/ngx';
+import {Platform} from '@ionic/angular';
 
-const DB_NAME = 'ionic-db-survey1.2';
+const DB_NAME = 'ionic-db-survey1.4';
 const win: any = window;
 
 @Injectable({
@@ -10,7 +10,7 @@ const win: any = window;
 })
 export class SQLiteService {
 
-    private dbLite: SQLite | any;
+    public dbLite: SQLite | any;
 
     constructor(
         private platform: Platform
@@ -31,7 +31,7 @@ export class SQLiteService {
         //     this.dbLite = win.openDatabase(DB_NAME, '1.0', 'database', 5 * 1024 * 1024);
         //     this._Init();
         // }
-        this.dbLite = win.openDatabase(DB_NAME, '1.2', 'database', 5 * 1024 * 1024);
+        this.dbLite = win.openDatabase(DB_NAME, '1.4', 'database', 5 * 1024 * 1024);
         this._Init();
     }
 
@@ -41,6 +41,23 @@ export class SQLiteService {
         this.createQuestionTable();
         this.createSolutionTable();
         this.createHistoryTable();
+    }
+
+    insertMultiple(query, params: [][]) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.dbLite.transaction((tx: any) => {
+                        const proms = [];
+                        for (const param of params) {
+                            proms.push(tx.executeSql(query, param));
+                        }
+                        return Promise.all(proms);
+                    },
+                    (err: any) => reject({err}));
+            } catch (err) {
+                reject({err});
+            }
+        });
     }
 
     /**
@@ -56,13 +73,13 @@ export class SQLiteService {
         return new Promise((resolve, reject) => {
             try {
                 this.dbLite.transaction((tx: any) => {
-                    tx.executeSql(query, params,
-                        (tx: any, res: any) => resolve({ tx, res }),
-                        (tx: any, err: any) => reject({ tx, err }));
-                },
-                    (err: any) => reject({ err }));
+                        tx.executeSql(query, params,
+                            (tx: any, res: any) => resolve({tx, res}),
+                            (tx: any, err: any) => reject({tx, err}));
+                    },
+                    (err: any) => reject({err}));
             } catch (err) {
-                reject({ err });
+                reject({err});
             }
         });
     }
@@ -157,7 +174,7 @@ export class SQLiteService {
      * @param {string} table the table
      * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
      */
-    delete(table: string, id: string|number): Promise<any> {
+    delete(table: string, id: string | number): Promise<any> {
         return this.query('delete from ' + table + ' where id = ?', [id]);
     }
 
@@ -175,6 +192,6 @@ export class SQLiteService {
     }
 
     private createHistoryTable() {
-        this.query('CREATE TABLE IF NOT EXISTS histories (id INTEGER primary key, question_id INTEGER, solution_id INTEGER)');
+        this.query('CREATE TABLE IF NOT EXISTS histories (id INTEGER primary key, question_id INTEGER, solution_id INTEGER, answer_date varchar(190))');
     }
 }

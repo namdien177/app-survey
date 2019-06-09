@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { SQLiteService } from './sqlite.service';
-import { User } from 'src/models/user';
-import { Question } from 'src/models/question';
-import { Solution } from 'src/models/solution';
-import { QuestionList } from 'src/models/question.list';
+import {Injectable} from '@angular/core';
+import {SQLiteService} from './sqlite.service';
+import {User} from 'src/models/user';
+import {Question} from 'src/models/question';
+import {Solution} from 'src/models/solution';
+import {QuestionList} from 'src/models/question.list';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -61,27 +62,27 @@ export class DataControlService {
     }
 
     retrieveAllSurvey(): Promise<QuestionList> {
-        let survey: Question[] = [];
-        let hardSurvey: Question[] = [];
-        let normalSurvey: Question[] = [];
-        let easySurvey: Question[] = [];
+        const survey: Question[] = [];
+        const hardSurvey: Question[] = [];
+        const normalSurvey: Question[] = [];
+        const easySurvey: Question[] = [];
 
-        let tempQuestion = [];
+        const tempQuestion = [];
 
         return this.db.query(
-            "select * from questions"
+            'select * from questions'
         )
             .then(list => {
                 const listRes = list.res.rows;
                 if (listRes.length == 0) {
-                    return Promise.reject("The list is empty")
+                    return Promise.reject('The list is empty');
                 }
-                let arrPromise = [];
+                const arrPromise = [];
                 Array.from(listRes).forEach(question => {
                     tempQuestion.push(question);
-                    arrPromise.push(this.db.query("select * from solutions where question_id=?", [question["id"]]));
+                    arrPromise.push(this.db.query('select * from solutions where question_id=?', [question['id']]));
                 });
-                return Promise.all(arrPromise)
+                return Promise.all(arrPromise);
             })
             .then(arrPromises => {
                 for (let index = 0; index < tempQuestion.length; index++) {
@@ -91,25 +92,26 @@ export class DataControlService {
                     console.log(arrPromises[index].res.rows);
                     Array.from(arrResponseRows).forEach(solution => {
                         arrAllSolutions.push({
-                            id: solution["id"],
-                            answer: solution["answer"],
-                            question_id: solution["question_id"]
+                            id: solution['id'],
+                            answer: solution['answer'],
+                            question_id: solution['question_id']
                         });
-                        if (solution["id"] == tempQuestion[index]["correctSolution_id"]) {
+                        if (solution['id'] == tempQuestion[index].correctSolution_id) {
                             correctSolution = {
-                                id: solution["id"],
-                                answer: solution["answer"],
-                                question_id: solution["question_id"]
+                                id: solution['id'],
+                                answer: solution['answer'],
+                                question_id: solution['question_id']
                             };
                         }
                     });
-                    let sv: Question = {
-                        id: tempQuestion[index]["id"],
-                        question: tempQuestion[index]["question"],
-                        correctSolution: correctSolution,
+                    arrAllSolutions = this.shuffleArray(arrAllSolutions);
+                    const sv: Question = {
+                        id: tempQuestion[index].id,
+                        question: tempQuestion[index].question,
+                        correctSolution,
                         solution: arrAllSolutions,
-                        difficulty: tempQuestion[index]["difficulty"]
-                    }
+                        difficulty: tempQuestion[index].difficulty
+                    };
                     survey.push(sv);
                     if (sv.difficulty == 2) {
                         easySurvey.push(sv);
@@ -127,7 +129,7 @@ export class DataControlService {
                         normalSurveys: normalSurvey,
                         hardSurveys: hardSurvey
                     }
-                )
+                );
             }, reject => {
                 console.warn(reject);
                 return Promise.resolve(null);
@@ -135,31 +137,31 @@ export class DataControlService {
             .catch((err) => {
                 console.log(err);
                 return Promise.resolve(null);
-            })
+            });
     }
 
     newSurvey(question: string, answer: string, otherAnswers: string[], difficulty: number) {
         let idQuestion = null;
-        return this.db.query("insert into questions (question, difficulty) values (?, ?)", [question, difficulty])
+        return this.db.query('insert into questions (question, difficulty) values (?, ?)', [question, difficulty])
             .then(out => {
-                idQuestion = out.res["insertId"];
-                return this.db.query("insert into solutions (answer, question_id) values (?, ?)", [answer, idQuestion])
+                idQuestion = out.res.insertId;
+                return this.db.query('insert into solutions (answer, question_id) values (?, ?)', [answer, idQuestion]);
             })
             .then(out => {
-                let correctAnswer = out.res["insertId"];
+                const correctAnswer = out.res.insertId;
                 console.log(correctAnswer);
-                return this.db.update("questions", { correctSolution_id: correctAnswer }, idQuestion)
+                return this.db.update('questions', {correctSolution_id: correctAnswer}, idQuestion);
             })
             .then(out => {
-                let promises = [];
+                const promises = [];
                 for (let i = 0; i < otherAnswers.length; i++) {
                     const anAnswer = otherAnswers[i];
                     promises.push(
-                        this.db.insert("solutions", {
+                        this.db.insert('solutions', {
                             answer: anAnswer,
                             question_id: idQuestion
                         })
-                    )
+                    );
                 }
                 return Promise.all(promises);
             })
@@ -170,42 +172,74 @@ export class DataControlService {
             ).catch(reject => {
                 console.error(reject);
                 return Promise.resolve(false);
-            })
+            });
     }
 
     deleteSurvey(surveyID: number) {
-        return this.db.query("select * from histories where question_id=?", [surveyID])
+        return this.db.query('select * from histories where question_id=?', [surveyID])
             .then(
                 out => {
                     if (out.res.rows > 0) {
                         return Promise.resolve(false);
                     }
 
-                    return this.db.query("select * from solutions where question_id=?", [surveyID])
+                    return this.db.query('select * from solutions where question_id=?', [surveyID])
                         .then(
                             out => {
                                 const result = out.res.rows;
                                 if (result.length > 0) {
-                                    let promises = [];
+                                    const promises = [];
                                     for (let i = 0; i < result.length; i++) {
                                         const anAnswer = result[i];
                                         promises.push(
-                                            this.db.delete("solutions", anAnswer["id"])
-                                        )
+                                            this.db.delete('solutions', anAnswer.id)
+                                        );
                                     }
                                     return Promise.all(promises);
                                 }
                             }
                         ).then(
                             out => {
-                                return this.db.delete("questions", surveyID).then(
+                                return this.db.delete('questions', surveyID).then(
                                     out => Promise.resolve(true)
-                                ).catch(() => Promise.resolve(false))
+                                ).catch(() => Promise.resolve(false));
                             }
-                        )
+                        );
                 }
-            )
+            );
     }
 
+    recordTest(testResult: { idQuestion, idSolution }[]) {
+        console.log(testResult);
+        const paramsPassing = [];
+        const currentTime = moment().format('DD-MM-YYYY kk:mm:ss');
+        for (const result of testResult) {
+            const arrayData = [result.idQuestion, result.idSolution, currentTime];
+            paramsPassing.push(arrayData);
+        }
+        return this.db.insertMultiple('insert into histories (question_id, solution_id, answer_date) values (?, ?, ?)', paramsPassing)
+            .then(res => {
+                console.log(res);
+                return Promise.resolve(res);
+            });
+    }
 
+    shuffleArray(array) {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
 }

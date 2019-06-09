@@ -30,11 +30,16 @@ export class MakeTestingComponent implements OnInit {
 
   submitNewTest() {
     if(this.validData()){
-      this.db.newSurvey(this.question, this.answer, this.otherAnswers, this.difficulty).then(
+      this.db.newSurvey(this.question, this.answer, this.otherAnswers, this.difficulty)
+      .then(
         res => {
           if (res){
             this.router.navigate(['/test/list'])
           }
+        }
+      ).catch(
+        er => {
+          console.error(er)
         }
       );
     }
@@ -46,13 +51,13 @@ export class MakeTestingComponent implements OnInit {
       return false;
     }
 
-    if (this.answer.length > 0) {
+    if (this.answer == null || this.answer == '') {
       this.error = "The answers cannot be empty"
       return false;
     }
 
     this.otherAnswers.forEach(answer => {
-      if (answer.length < 3) {
+      if (answer == null || answer == '') {
         this.error = "The question must have at lease 4 character!"
         return false;
       }
@@ -62,6 +67,8 @@ export class MakeTestingComponent implements OnInit {
       this.error = "Please choose difficulty!"
       return false;
     }
+
+    return true;
   }
 
 }
