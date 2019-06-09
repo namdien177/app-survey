@@ -1,0 +1,29 @@
+<ion-app>
+  <ion-header></ion-header>
+  <ion-content class="backgroundImg">
+    <!-- -->
+
+    <ion-grid class="centering">
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-card class="background">
+            <img src="/assets/work-icon-png-6.png">
+            <ion-card-header>
+              <ion-card-title class="customFont">Your Added Questions</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ng-container *ngFor="let test of tests?.surveys">
+                  <ion-item>
+                    <ion-label>{{test?.question}}</ion-label>
+                  </ion-item>
+                  <p>Correct: {{test?.correctSolution?.answer | EllipisPipe }}</p>
+                </ng-container>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-app>

@@ -9,3 +9,47 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+
+@font-face {
+    font-family: "Chalkduster";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/assets/fonts/Chalkduster.ttf");
+}
+
+@font-face {
+    font-family: "Chalkduster";
+    font-style: normal;
+    font-weight: bold;
+    src: url("/assets/fonts/Chalkduster.ttf");
+}
+
+@font-face {
+    font-family: "Chalkduster";
+    font-style: italic;
+    font-weight: normal;
+    src: url("/assets/fonts/Chalkduster.ttf");
+}
+
+@font-face {
+    font-family: "Chalkduster";
+    font-style: italic;
+    font-weight: bold;
+    src: url("/assets/fonts/Chalkduster.ttf");
+}
+
+
+.background {
+    background-color: #2f4f4f;
+
+}
+
+.backgroundImg {
+    --background: none;
+    background-image: url("/assets/backgroundlogin2.jpg");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}

@@ -1,0 +1,65 @@
+<ion-app>
+  <ion-header></ion-header>
+  <ion-content class="backgroundImg">
+    <!-- -->
+    <ion-grid class="centering">
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-card class="background">
+            <img src="/assets/content-icon.png">
+            <ion-card-header>
+              <ion-card-title class="customFont">Add Your Question</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item class="text-input">
+                <ion-input type="text" [(ngModel)]="question" placeholder="Your Question" clearInput autocorrect="off" autofocus="true"></ion-input>
+              </ion-item>
+              <ion-item class="text-input">
+                <ion-input type="text" [(ngModel)]="answer" placeholder="The Correct Option" clearInput autocorrect="off"></ion-input>
+              </ion-item>
+              <ion-item class="text-input">
+                <ion-input type="text" [(ngModel)]="otherAnswers[0]" placeholder="Option A" clearInput autocorrect="off"></ion-input>
+              </ion-item>
+              <ion-item class="text-input">
+                <ion-input type="text" [(ngModel)]="otherAnswers[1]" placeholder="Option B" clearInput autocorrect="off"></ion-input>
+              </ion-item>
+              <ion-item class="text-input">
+                <ion-input type="text" [(ngModel)]="otherAnswers[2]" placeholder="Option C" clearInput autocorrect="off"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-list>
+                  <ion-radio-group [(ngModel)]="difficulty">
+                    <ion-list-header>
+                      Difficulty
+                    </ion-list-header>
+
+                    <ion-item>
+                      <ion-label>Easy</ion-label>
+                      <ion-radio value="2" checked></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label>Normal</ion-label>
+                      <ion-radio value="1"></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label>Hard</ion-label>
+                      <ion-radio value="0"></ion-radio>
+                    </ion-item>
+                  </ion-radio-group>
+                </ion-list>
+              </ion-item>
+              <div margin-vertical text-center>
+                <ion-button (click)="submitNewTest()" fill="fill" color="sucess" class="text-input">
+                  <ion-icon slot="start" name="clipboard"></ion-icon>
+                  Add The Question!
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-app>

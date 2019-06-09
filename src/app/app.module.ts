@@ -8,14 +8,41 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from 'src/guard/auth.guard';
+import { GuestGuard } from 'src/guard/guest.guard';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SQLiteService } from 'src/services/sqlite.service';
+import { DataControlService } from 'src/services/data-control.service';
+import { FormsModule } from '@angular/forms';
+import { EllipisPipe } from './ellipis.pipe';
+
+const declare = [
+  AppComponent,
+  LoginComponent,
+  RegisterComponent
+]
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: declare,
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule, 
+    FormsModule,
+    IonicModule.forRoot(), 
+    AppRoutingModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
+    // guards
+    AuthGuard,
+    GuestGuard,
+    // services
+    SQLite,
+    SQLiteService,
+    DataControlService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

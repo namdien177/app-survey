@@ -1,5 +1,8 @@
 {
   "name": "survey-pj",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }

@@ -1,0 +1,46 @@
+<ion-app>
+  <ion-header></ion-header>
+  <ion-content class="backgroundImg">
+    <!-- -->
+    <ion-grid>
+      <ion-row class="centering">
+        <ion-col size-md="6" offset-md="3">
+          <ion-card class="background">
+            <ion-card-content>
+              <ion-avatar class="picture">
+                <img [src]="avatarImage">
+              </ion-avatar>
+
+              <ion-item class="text-input">
+                <ion-input #inputAccount type="text" placeholder="Your email" clearInput autocorrect="off"
+                  autofocus="true" [(ngModel)]="user.username" [disabled]="!isEditing" id="account"></ion-input>
+              </ion-item>
+
+              <ion-item class="text-input">
+                <ion-input #inputPassword type="password" placeholder="Your Password" clearInput autocorrect="off"
+                  [disabled]="!isEditing" [(ngModel)]="user.password" id="password"></ion-input>
+              </ion-item>
+
+              <div margin-vertical text-center>
+                <ion-button #btnEdit fill="fill" (click)="toggleEdit()" class="text-input">
+                  <ion-icon slot="start" name="create"></ion-icon>
+                  <ng-container *ngIf="!isEditing">
+                    Edit Your Profile
+                  </ng-container>
+
+                  <ng-container *ngIf="isEditing">
+                    Apply and Lock
+                  </ng-container>
+                </ion-button>
+                <ion-button fill="fill" class="text-input" (click)="update()" [disabled]="!isEditing">
+                  <ion-icon slot="end" name="checkmark"></ion-icon>
+                  Done
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-app>

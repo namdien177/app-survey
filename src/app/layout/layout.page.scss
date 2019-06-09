@@ -1,0 +1,26 @@
+.my-custom-menu {
+    --width: 500px;
+}
+
+.backgroundImg {
+    --background: none;
+    background-image: url("../../assets/backgroundlogin2.jpg");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+}
+
+.background {
+    background-color: #2f4f4f;
+}
+
+.customizing {
+    --width: 16em
+}
+
+.toolbarColor {
+    --background: #2f4f4f;
+    --color: white;
+}
