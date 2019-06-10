@@ -5,6 +5,7 @@ import {Question} from 'src/models/question';
 import {Solution} from 'src/models/solution';
 import {QuestionList} from 'src/models/question.list';
 import * as moment from 'moment';
+import {History} from '../models/history';
 
 @Injectable({
     providedIn: 'root'
@@ -213,15 +214,24 @@ export class DataControlService {
         console.log(testResult);
         const paramsPassing = [];
         const currentTime = moment().format('DD-MM-YYYY kk:mm:ss');
+        const idUser = this.receiveUser().id;
         for (const result of testResult) {
-            const arrayData = [result.idQuestion, result.idSolution, currentTime];
+            const arrayData = [idUser, result.idQuestion, result.idSolution, currentTime];
             paramsPassing.push(arrayData);
         }
-        return this.db.insertMultiple('insert into histories (question_id, solution_id, answer_date) values (?, ?, ?)', paramsPassing)
-            .then(res => {
-                console.log(res);
-                return Promise.resolve(res);
-            });
+        return this.db.insertMultiple(
+            'insert into histories (user_id, question_id, solution_id, answer_date) values ',
+            paramsPassing
+        );
+    }
+
+    receiveUser() {
+        const user: User = JSON.parse(localStorage.getItem('user'));
+        return user;
+    }
+
+    receiveHistoryTest(userId = this.receiveUser().id) {
+
     }
 
     shuffleArray(array) {

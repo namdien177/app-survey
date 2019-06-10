@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {SQLite} from '@ionic-native/sqlite/ngx';
 import {Platform} from '@ionic/angular';
 
-const DB_NAME = 'ionic-db-survey1.4';
+const DB_NAME = 'ionic-db-survey1.5A';
 const win: any = window;
 
 @Injectable({
@@ -31,7 +31,7 @@ export class SQLiteService {
         //     this.dbLite = win.openDatabase(DB_NAME, '1.0', 'database', 5 * 1024 * 1024);
         //     this._Init();
         // }
-        this.dbLite = win.openDatabase(DB_NAME, '1.4', 'database', 5 * 1024 * 1024);
+        this.dbLite = win.openDatabase(DB_NAME, '1.5', 'database', 5 * 1024 * 1024);
         this._Init();
     }
 
@@ -47,11 +47,24 @@ export class SQLiteService {
         return new Promise((resolve, reject) => {
             try {
                 this.dbLite.transaction((tx: any) => {
-                        const proms = [];
+                        let paramsString = '(';
                         for (const param of params) {
-                            proms.push(tx.executeSql(query, param));
+                            for (const innerData of param) {
+                                paramsString += '"' + innerData + '"' + ',';
+                            }
+                            paramsString = paramsString.substr(0, paramsString.length - 1) + '),(';
                         }
-                        return Promise.all(proms);
+                        paramsString = paramsString.substr(0, paramsString.length - 2);
+                        console.log(query + paramsString);
+                        tx.executeSql(query + paramsString, [],
+                            (tx: any, res: any) => {
+                                console.log(res);
+                                return resolve(res);
+                            },
+                            (tx: any, err: any) => {
+                                console.log(err);
+                                return reject(err);
+                            });
                     },
                     (err: any) => reject({err}));
             } catch (err) {
@@ -192,6 +205,6 @@ export class SQLiteService {
     }
 
     private createHistoryTable() {
-        this.query('CREATE TABLE IF NOT EXISTS histories (id INTEGER primary key, question_id INTEGER, solution_id INTEGER, answer_date varchar(190))');
+        this.query('CREATE TABLE IF NOT EXISTS histories (id INTEGER primary key, user_id integer, question_id INTEGER, solution_id INTEGER, answer_date varchar(190))');
     }
 }

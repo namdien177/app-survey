@@ -3,9 +3,9 @@ import { Question } from './question';
 import { Solution } from './solution';
 
 export class History{
-    id: number;
+    id?: number;
     user: User;
-    question: Question;
-    answeredSolution: Solution;
-    answeredAt: string;
+    question?: Question;
+    answeredSolution?: Solution;
+    answeredAt?: string;
 }
