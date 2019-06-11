@@ -1,40 +1,66 @@
-<ng-container>
-    <ion-app>
-        <ion-header></ion-header>
-        <ion-content class="backgroundImg">
-            <!-- -->
-            <ion-grid>
-                <ion-row class="centering">
-                    <ion-col size-md="6" offset-md="3">
-                        <ion-card class="background">
-                            <ion-card-content *ngFor="let question of listDisplay; let i = index">
-                                <ion-radio-group [(ngModel)]="listRadioRecord[i].idSolution">
-                                    <ion-list-header>
-                                        Câu 1: {{question.question}}
-                                    </ion-list-header>
-                                    <ion-item *ngFor="let solution of question.solution">
-                                        <ion-label>{{solution.answer}}</ion-label>
-                                        <ion-radio value="{{solution.id}}"></ion-radio>
-                                    </ion-item>
-                                </ion-radio-group>
-                            </ion-card-content>
-                            <ion-card-subtitle *ngIf="!!errorMessage">
-                                {{errorMessage}}
-                            </ion-card-subtitle>
-                        </ion-card>
+<ion-grid class="centering">
+    <ion-row>
+        <ion-col size-md="6" offset-md="3">
+            <ion-card class="background">
+                <img src="/assets/Program_Icon.png"/>
+                <ng-container *ngIf="listDisplay.length > 0">
+                    <ion-card-header>
+                        <ion-card-title class="customFont text-input" text-center>Start the test!</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item style="position: sticky;" *ngIf="!turnIn" class="text-input">
+                            <h2>Your Time: {{minute}}:{{second}}</h2>
+                        </ion-item>
+                        <ion-item *ngIf="turnIn" class="text-input">
+                            <h2>Your Score: {{correct}}/{{wrong + correct}}</h2>
+                            <h2>Your Time: {{minute}}:{{second}}</h2>
+                        </ion-item>
+                        <div class="background2">
+                            <ion-card>
+                                <ion-card-content *ngFor="let question of listDisplay; let i = index">
+                                    <ion-radio-group [(ngModel)]="listRadioRecord[i].idSolution">
+                                        <ion-list-header>
+                                            Câu {{i + 1}}: {{question.question}}
+                                        </ion-list-header>
+                                        <ion-item *ngFor="let solution of question.solution">
+                                            <ion-label>{{solution.answer}}</ion-label>
+                                            <ion-radio value="{{solution.id}}"></ion-radio>
+                                        </ion-item>
+                                    </ion-radio-group>
+                                </ion-card-content>
+                                <ion-card-subtitle *ngIf="!!errorMessage">
+                                    {{errorMessage}}
+                                </ion-card-subtitle>
+                            </ion-card>
+                        </div>
                         <div margin-vertical text-center>
-                            <ion-button fill="fill" color="danger" class="text-input">
-                                <ion-icon slot="start" name="redo"></ion-icon>
-                                Redo
+                            <ion-button routerLink="/test/history" fill="fill" class="text-input">
+                                <ion-icon slot="start" name="briefcase"></ion-icon>
+                                Go To History
                             </ion-button>
                             <ion-button (click)="submitTest()" fill="fill" color="sucess" class="text-input">
                                 <ion-icon slot="end" name="checkmark"></ion-icon>
                                 Turn In
                             </ion-button>
                         </div>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-content>
-    </ion-app>
-</ng-container>
+                    </ion-card-content>
+                </ng-container>
+                <ng-container *ngIf="listDisplay.length == 0">
+                    <ion-card-header>
+                        <ion-card-title class="customFont text-input" text-center>
+                            Create new test and test your own strength!
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <div margin-vertical text-center>
+                            <ion-button routerLink="/test/make" fill="fill" class="text-input">
+                                <ion-icon slot="start" name="add"></ion-icon>
+                                Go To create Test
+                            </ion-button>
+                        </div>
+                    </ion-card-content>
+                </ng-container>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

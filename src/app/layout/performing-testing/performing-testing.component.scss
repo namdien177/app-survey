@@ -1,27 +1,28 @@
-.customFont {
-    font-family: "Chalkduster", italic, normal;
-    color: white;
-}
-
-.text-input {
-    --background: rgba(0, 0, 0, 0.25);
-    --color: white;
+:host {
+  overflow: auto;
 }
 
 .centering {
-    padding-top: 1.5em;
+  padding: 1rem;
 }
 
-ion-item {
-    padding-bottom: 0.5em;
-    padding-top: 0.5em;
+.background {
+  background-color: #2f4f4f;
+  padding: 1rem;
 }
 
-ion-list-header {
-    color: white
+.text-input {
+  --background: rgba(0, 0, 0, 0.25);
+  --color: white;
 }
 
-ion-radio {
-    --color: rgba(0, 0, 0, 0.25);
-
+img {
+  width: 30%;
+  height: 15%;
+  margin: auto;
 }
+
+.background2 {
+  background-color: white;
+}
+

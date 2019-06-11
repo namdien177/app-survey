@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {SQLite} from '@ionic-native/sqlite/ngx';
 import {Platform} from '@ionic/angular';
 
-const DB_NAME = 'ionic-db-survey1.5A';
+const DB_NAME = 'ionic-db-survey2.0';
 const win: any = window;
 
 @Injectable({
@@ -31,7 +31,7 @@ export class SQLiteService {
         //     this.dbLite = win.openDatabase(DB_NAME, '1.0', 'database', 5 * 1024 * 1024);
         //     this._Init();
         // }
-        this.dbLite = win.openDatabase(DB_NAME, '1.5', 'database', 5 * 1024 * 1024);
+        this.dbLite = win.openDatabase(DB_NAME, '2.0', 'database', 5 * 1024 * 1024);
         this._Init();
     }
 
@@ -41,6 +41,7 @@ export class SQLiteService {
         this.createQuestionTable();
         this.createSolutionTable();
         this.createHistoryTable();
+        this.createResultTable();
     }
 
     insertMultiple(query, params: [][]) {
@@ -206,5 +207,9 @@ export class SQLiteService {
 
     private createHistoryTable() {
         this.query('CREATE TABLE IF NOT EXISTS histories (id INTEGER primary key, user_id integer, question_id INTEGER, solution_id INTEGER, answer_date varchar(190))');
+    }
+
+    private createResultTable() {
+        this.query('CREATE TABLE IF NOT EXISTS results (id INTEGER primary key, user_id integer, correct INTEGER, wrong INTEGER, answer_date varchar(190), duration varchar(10))');
     }
 }

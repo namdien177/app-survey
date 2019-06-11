@@ -1,39 +1,37 @@
-<ion-app>
-  <ion-header></ion-header>
-  <ion-content class="backgroundImg" >
-    <!-- -->
+<ion-content class="backgroundImg">
     <ion-grid class="centering">
-      <ion-row>
-        <ion-col size-md="6" offset-md="3">
-          <ion-card class="background">
-              <img src="../../assets/Education_Blackboard-512.png">
-            <ion-card-header>
-              <ion-card-title class="customFont">Welcome To Acomici</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item class="text-input">
-                <ion-input type="text" [(ngModel)]="username" placeholder="Account" clearInput autocorrect="off" autofocus="true"></ion-input>
-              </ion-item>
-              <ion-item class="text-input">
-                <ion-input type="password" [(ngModel)]="password" placeholder="Password" clearInput autocorrect="off"></ion-input>
-              </ion-item>
-              <ng-container *ngIf="errMessage.length > 0">
-                <p>{{errMessage}}</p>
-              </ng-container>
-              <div margin-vertical text-center>
-              <ion-button fill="fill" (click)="login()" color="sucess" class="text-input">
-                <ion-icon slot="start" name="book"></ion-icon>
-                Login
-              </ion-button>
-              <ion-button fill="fill" color="default" class="text-input" routerLink="/register">
-                <ion-icon slot="end" name="person-add"></ion-icon>
-                Join Us
-              </ion-button>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+            <ion-col size-md="6" offset-md="3">
+                <ion-card class="background">
+                    <img src="../../assets/Education_Blackboard-512.png">
+                    <ion-card-header>
+                        <ion-card-title class="customFont">Welcome To Acomici</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item class="text-input">
+                            <ion-input type="text" [(ngModel)]="username" placeholder="Account" clearInput
+                                       autocorrect="off" autofocus="true"></ion-input>
+                        </ion-item>
+                        <ion-item class="text-input">
+                            <ion-input type="password" [(ngModel)]="password" placeholder="Password" clearInput
+                                       autocorrect="off"></ion-input>
+                        </ion-item>
+                        <ng-container *ngIf="errMessage.length > 0">
+                            <p>{{errMessage}}</p>
+                        </ng-container>
+                        <div margin-vertical text-center>
+                            <ion-button fill="fill" (click)="login()" color="sucess" class="text-input">
+                                <ion-icon slot="start" name="book"></ion-icon>
+                                Login
+                            </ion-button>
+                            <ion-button fill="fill" color="default" class="text-input" routerLink="/register">
+                                <ion-icon slot="end" name="person-add"></ion-icon>
+                                Join Us
+                            </ion-button>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
     </ion-grid>
-  </ion-content>
-</ion-app>
+</ion-content>

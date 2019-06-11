@@ -5,7 +5,6 @@ import {Question} from 'src/models/question';
 import {Solution} from 'src/models/solution';
 import {QuestionList} from 'src/models/question.list';
 import * as moment from 'moment';
-import {History} from '../models/history';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +14,11 @@ export class DataControlService {
     constructor(
         private db: SQLiteService
     ) {
+    }
+
+    static receiveUser() {
+        const user: User = JSON.parse(localStorage.getItem('user'));
+        return user;
     }
 
     login(username, password): Promise<boolean> {
@@ -210,28 +214,18 @@ export class DataControlService {
             );
     }
 
-    recordTest(testResult: { idQuestion, idSolution }[]) {
-        console.log(testResult);
-        const paramsPassing = [];
+    recordTest(correct: number, wrong: number, timePerform: string) {
         const currentTime = moment().format('DD-MM-YYYY kk:mm:ss');
-        const idUser = this.receiveUser().id;
-        for (const result of testResult) {
-            const arrayData = [idUser, result.idQuestion, result.idSolution, currentTime];
-            paramsPassing.push(arrayData);
-        }
-        return this.db.insertMultiple(
-            'insert into histories (user_id, question_id, solution_id, answer_date) values ',
-            paramsPassing
+        const idUser = DataControlService.receiveUser().id;
+
+        return this.db.insert('results', {user_id: idUser, correct, wrong, answer_date: currentTime, duration: timePerform});
+    }
+
+    receiveHistoryTest(userId = DataControlService.receiveUser().id) {
+        return this.db.query(
+            'select * from results where user_id=? order by id desc',
+            [userId]
         );
-    }
-
-    receiveUser() {
-        const user: User = JSON.parse(localStorage.getItem('user'));
-        return user;
-    }
-
-    receiveHistoryTest(userId = this.receiveUser().id) {
-
     }
 
     shuffleArray(array) {

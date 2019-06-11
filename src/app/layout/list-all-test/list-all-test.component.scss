@@ -1,3 +1,7 @@
+:host {
+  overflow: auto;
+}
+
 ion-card-title {
     position: absolute;
     top: 0;
@@ -8,7 +12,7 @@ ion-card-title {
     text-align: center;
   }
   .customFont {
-    font-family: "Chalkduster", italic, normal;
+    font-family: "Chalkduster", italic, normal, sans-serif;
     color: white;
   }
   .background {
@@ -43,4 +47,3 @@ ion-card-title {
     height: 15%;
     margin: auto;
   }
- 

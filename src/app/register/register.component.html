@@ -1,42 +1,43 @@
-<ion-app>
-  <ion-header></ion-header>
-  <ion-content class="backgroundImg">
+<ion-content class="backgroundImg">
     <!-- -->
     <ion-grid>
-      <ion-row class="centering">
-        <ion-col size-md="6" offset-md="3">
-          <ion-card class="background">
-            <img src="../../assets/myspace-icon.png">
-            <ion-card-header>
-              <ion-card-title class="customFont">Registration Form</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-item class="text-input">
-                <ion-input type="email" [(ngModel)]="username" placeholder="Your Email" clearInput autocorrect="off"></ion-input>
-              </ion-item>
-              <ion-item class="text-input">
-                <ion-input type="password" [(ngModel)]="password" placeholder="Your Password" clearInput autocorrect="off"></ion-input>
-              </ion-item>
-              <ion-item class="text-input">
-                <ion-input type="password" [(ngModel)]="confPassword" placeholder="Re-type your password" clearInput autocorrect="off"></ion-input>
-              </ion-item>
-              <ng-container *ngIf="errorText.length > 0">
-                  <p>{{errorText}}</p>
-              </ng-container>
-              <div margin-vertical text-center>
-                <ion-button fill="fill" color="danger" routerLink="/login" class="text-input">
-                  <ion-icon slot="start" name="redo"></ion-icon>
-                  Try Again
-                </ion-button>
-                <ion-button (click)="register()" fill="fill" color="sucess" class="text-input">
-                  <ion-icon slot="end" name="checkmark">
-                  </ion-icon>Done
-                </ion-button>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+        <ion-row class="centering">
+            <ion-col size-md="6" offset-md="3">
+                <ion-card class="background">
+                    <img src="../../assets/myspace-icon.png">
+                    <ion-card-header>
+                        <ion-card-title class="customFont">Registration Form</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item class="text-input">
+                            <ion-input type="email" [(ngModel)]="username" placeholder="Your Email" clearInput
+                                       autocorrect="off"></ion-input>
+                        </ion-item>
+                        <ion-item class="text-input">
+                            <ion-input type="password" [(ngModel)]="password" placeholder="Your Password" clearInput
+                                       autocorrect="off"></ion-input>
+                        </ion-item>
+                        <ion-item class="text-input">
+                            <ion-input type="password" [(ngModel)]="confPassword" placeholder="Re-type your password"
+                                       clearInput autocorrect="off"></ion-input>
+                        </ion-item>
+                        <ng-container *ngIf="errorText.length > 0">
+                            <p>{{errorText}}</p>
+                        </ng-container>
+                        <div margin-vertical text-center>
+                            <ion-button fill="fill" color="danger" routerLink="/login" class="text-input">
+                                <ion-icon slot="start" name="redo"></ion-icon>
+                                Login instead
+                            </ion-button>
+                            <ion-button (click)="register()" fill="fill" color="sucess" class="text-input">
+                                <ion-icon slot="end" name="checkmark">
+                                </ion-icon>
+                                Done
+                            </ion-button>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
     </ion-grid>
-  </ion-content>
-</ion-app>
+</ion-content>
