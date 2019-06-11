@@ -12,7 +12,9 @@ import { MakeTestingComponent } from './make-testing/make-testing.component';
 import { HistoryTestingComponent } from './history-testing/history-testing.component';
 import { PerformingTestingComponent } from './performing-testing/performing-testing.component';
 import { ListAllTestComponent } from './list-all-test/list-all-test.component';
+import { TestResultsComponent } from './test-results/test-results.component';
 import { EllipisPipe } from '../ellipis.pipe';
+
 
 const routes: Routes = [
   {
@@ -32,6 +34,7 @@ const routes: Routes = [
           { path: 'history', component: HistoryTestingComponent },
           { path: 'make', component: MakeTestingComponent },
           { path: 'list', component: ListAllTestComponent },
+          { path: 'results', component: TestResultsComponent},
         ]
       }
     ]
@@ -45,7 +48,8 @@ const declarations = [
   PerformingTestingComponent,
   HistoryTestingComponent,
   ListAllTestComponent,
-  MakeTestingComponent ,
+  MakeTestingComponent,
+  TestResultsComponent,
   EllipisPipe
 ]
 
