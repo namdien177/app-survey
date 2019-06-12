@@ -79,7 +79,7 @@ export class DataControlService {
         )
             .then(list => {
                 const listRes = list.res.rows;
-                if (listRes.length == 0) {
+                if (listRes.length === 0) {
                     return Promise.reject('The list is empty');
                 }
                 const arrPromise = [];
@@ -94,7 +94,6 @@ export class DataControlService {
                     const arrResponseRows = arrPromises[index].res.rows;
                     let correctSolution: Solution = null;
                     let arrAllSolutions: Solution[] = [];
-                    console.log(arrPromises[index].res.rows);
                     Array.from(arrResponseRows).forEach(solution => {
                         arrAllSolutions.push({
                             id: solution['id'],

@@ -1,48 +1,45 @@
-<ion-app>
-    <ion-menu side="start" menuId="first" contentId="content" class="customizing">
-        <ion-header>
-            <ion-toolbar class="toolbarColor">
-                <ion-title>Start Menu</ion-title>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content>
-            <ng-container *ngFor="let page of listPages">
+<ion-menu side="start" menuId="first" contentId="content" class="customizing">
+    <ion-header>
+        <ion-toolbar class="toolbarColor">
+            <ion-title>Start Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ng-container *ngFor="let page of listPages">
 
-                <ng-container *ngIf="!!page.clickEvent">
-                    <!-- Standard Menu Item -->
-                    <ion-menu-toggle *ngIf="page.url">
-                        <ion-item (click)="logout()" routerDirection="root" routerLinkActive="active">
-                            <ion-icon [name]="page.icon" slot="start"></ion-icon>
-                            <ion-label>
-                                {{ page.title }}
-                            </ion-label>
-                        </ion-item>
-                    </ion-menu-toggle>
-                </ng-container>
-
-                <ng-container *ngIf="!!!page.clickEvent">
-                    <!-- Standard Menu Item -->
-                    <ion-menu-toggle *ngIf="page.url">
-                        <ion-item [routerLink]="page.url" routerDirection="root" routerLinkActive="active">
-                            <ion-icon [name]="page.icon" slot="start"></ion-icon>
-                            <ion-label>
-                                {{ page.title }}
-                            </ion-label>
-                        </ion-item>
-                    </ion-menu-toggle>
-                </ng-container>
+            <ng-container *ngIf="!!page.clickEvent">
+                <!-- Standard Menu Item -->
+                <ion-menu-toggle *ngIf="page.url">
+                    <ion-item (click)="logout()" routerDirection="root" routerLinkActive="active">
+                        <ion-icon [name]="page.icon" slot="start"></ion-icon>
+                        <ion-label>
+                            {{ page.title }}
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
             </ng-container>
-        </ion-content>
-    </ion-menu>
-    <div class="background" id="content">
-        <ion-button (click)="toggleMenu()" fill="clear">
-            <ion-icon name="menu"></ion-icon>
-        </ion-button>
 
-        <div class="backgroundImg">
-            <ion-router-outlet class="routerInner"></ion-router-outlet>
-            <!-- load cac trang children cua main-menu module -->
-        </div>
+            <ng-container *ngIf="!!!page.clickEvent">
+                <!-- Standard Menu Item -->
+                <ion-menu-toggle *ngIf="page.url">
+                    <ion-item [routerLink]="page.url" routerDirection="root" routerLinkActive="active">
+                        <ion-icon [name]="page.icon" slot="start"></ion-icon>
+                        <ion-label>
+                            {{ page.title }}
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ng-container>
+        </ng-container>
+    </ion-content>
+</ion-menu>
+<div class="background" id="content">
+    <ion-button (click)="toggleMenu()" fill="clear">
+        <ion-icon name="menu"></ion-icon>
+    </ion-button>
+
+    <div class="backgroundImg">
+        <ion-router-outlet class="routerInner"></ion-router-outlet>
+        <!-- load cac trang children cua main-menu module -->
     </div>
-
-</ion-app>
+</div>

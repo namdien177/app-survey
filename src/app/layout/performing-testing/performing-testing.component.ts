@@ -8,7 +8,7 @@ import {Question} from 'src/models/question';
     templateUrl: './performing-testing.component.html',
     styleUrls: ['./performing-testing.component.scss'],
 })
-export class PerformingTestingComponent implements OnInit, AfterViewInit {
+export class PerformingTestingComponent implements OnInit {
 
     listAvailable: QuestionList = null;
     listDisplay: Question[] = [];
@@ -32,12 +32,10 @@ export class PerformingTestingComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadQuestions();
-
-        console.log(this.listDisplay);
-        console.log(this.listRadioRecord);
     }
 
     timerCountStart() {
+        this.secondTime = 0;
         this.timer = setInterval(() => {
             this.secondTime += 1;
             if (this.secondTime >= 60) {
@@ -73,7 +71,6 @@ export class PerformingTestingComponent implements OnInit, AfterViewInit {
                 this.timerCountEnd();
                 this.checkResult();
                 this.db.recordTest(this.correct, this.wrong, this.minute + ':' + this.second).then(out => {
-                    console.log(out);
                     this.result = true;
                 });
             }
@@ -100,14 +97,18 @@ export class PerformingTestingComponent implements OnInit, AfterViewInit {
     loadQuestions() {
         this.db.retrieveAllSurvey().then(list => {
             this.listAvailable = list;
+            console.log(list);
             this.listDisplay = this.shuffleQuestion(this.listAvailable);
+            if (this.listDisplay.length > 0) {
+                this.timerCountStart();
+            }
         });
     }
 
     shuffleQuestion(list: QuestionList, easy: number = 2, normal: number = 2, hard: number = 2) {
         const finalList: Question[] = [];
 
-        if (list) {
+        if (!!list) {
             const listEasy: Question[] = list.easySurveys;
             const listNormal: Question[] = list.normalSurveys;
             const listHard: Question[] = list.hardSurveys;
@@ -141,6 +142,7 @@ export class PerformingTestingComponent implements OnInit, AfterViewInit {
         for (const question of finalList) {
             this.listRadioRecord.push({idQuestion: question.id, idSolution: null});
         }
+        console.log(finalList);
         return finalList;
     }
 
@@ -157,11 +159,5 @@ export class PerformingTestingComponent implements OnInit, AfterViewInit {
             }
         }
         return this.errorMessage.length === 0;
-    }
-
-    ngAfterViewInit(): void {
-        if (this.listDisplay.length > 0) {
-            this.timerCountStart();
-        }
     }
 }

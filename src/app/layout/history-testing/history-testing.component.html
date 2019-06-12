@@ -12,8 +12,11 @@
                         <ion-list>
                             <ion-item *ngFor="let res of listHistory">
                                 <ion-label>
-                                    Score:
-                                    {{res.correct}}/{{res.wrong + res.correct}}
+                                    <strong>
+                                        Score: {{res.correct}}/{{res.wrong + res.correct}}
+                                    </strong>
+                                    <br>
+                                    <div>Duration: {{res.duration}}</div>
                                 </ion-label>
                                 <p>{{res.answer_date}}</p>
                             </ion-item>
